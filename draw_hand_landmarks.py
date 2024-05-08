@@ -5,6 +5,7 @@ BGR_RED = (0, 0, 255)
 BGR_GREEN = (0, 255, 0)
 
 def draw_hand_landmarks(image, hand_landmarks):
+    """Calculate and draw landmark outputs for hand"""
     brect = calc_bounding_rect(image, hand_landmarks)
     landmark_list = calc_landmark_list(image, hand_landmarks)
 
@@ -14,6 +15,7 @@ def draw_hand_landmarks(image, hand_landmarks):
     return image
 
 def calc_bounding_rect(image, landmarks):
+    """Calculates the bounding box for the hand"""
     image_width, image_height = image.shape[1], image.shape[0]
 
     landmark_array = np.empty((0, 2), int)
@@ -31,6 +33,7 @@ def calc_bounding_rect(image, landmarks):
     return [x, y, x + w, y + h]
 
 def calc_landmark_list(image, landmarks):
+    """Calculates the exacts points for each landmark"""
     image_width, image_height = image.shape[1], image.shape[0]
 
     landmark_point = []
@@ -44,11 +47,13 @@ def calc_landmark_list(image, landmarks):
     return landmark_point
 
 def draw_bounding_rectangle(image, brect):
-    cv2.rectangle(image, (brect[0], brect[1]), (brect[2], brect[3]), 
+    """Draw bounding rectangle on image around the detected hand"""
+    cv2.rectangle(image, (brect[0], brect[1]), (brect[2], brect[3]),
                (0, 0, 0), 1)
     return image
 
 def draw_landmarks(image, landmark_point):
+    """Draw Landmarks onto image for detected hand"""
     if len(landmark_point) > 0:
         # Thumb
         cv2.line(image, tuple(landmark_point[2]), tuple(landmark_point[3]),
@@ -112,7 +117,7 @@ def draw_landmarks(image, landmark_point):
         cv2.line(image, tuple(landmark_point[0]), tuple(landmark_point[17]),
                 BGR_GREEN, 2)
 
-    # Key Points 
+    # Key Points
     for landmark in landmark_point:
         cv2.circle(image, (landmark[0], landmark[1]), 5, BGR_RED, -1)
 
