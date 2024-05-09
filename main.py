@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-from draw_hand_landmarks import draw_hand_landmarks
+from src import draw_hand_landmarks as drawer
 
 
 def main():
@@ -25,14 +25,19 @@ def main():
 
         if results.multi_hand_landmarks is not None:
             for hand_landmarks in results.multi_hand_landmarks:
-                image = draw_hand_landmarks(image, hand_landmarks)
-                hands_image = draw_hand_landmarks(hands_image, hand_landmarks)
+                image = drawer.draw_hand_landmarks(image, hand_landmarks)
+                hands_image = drawer.draw_hand_landmarks(hands_image, hand_landmarks)
 
         cv2.imshow('image', image)
         cv2.imshow('hands', hands_image)
 
-        if (cv2.waitKey(1) & 0xFF) == ord('q'):
+        input_key = (cv2.waitKey(1) & 0xFF)
+        if input_key == ord('q'): # quit program
             break
+        elif input_key == ord('t'): # get data and train model
+            break
+        # elif input_key == ord('l'): # track current letter # TODO: model creation needs to happen first
+        #     break
 
     vid.release()
     cv2.destroyAllWindows()
