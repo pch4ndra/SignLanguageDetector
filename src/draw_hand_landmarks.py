@@ -12,7 +12,7 @@ def draw_hand_landmarks(image, hand_landmarks):
     image = draw_bounding_rectangle(image, brect)
     image = draw_landmarks(image, landmark_list)
 
-    return image
+    return image, brect
 
 def calc_bounding_rect(image, landmarks):
     """Calculates the bounding box for the hand"""
@@ -29,7 +29,6 @@ def calc_bounding_rect(image, landmarks):
         landmark_array = np.append(landmark_array, landmark_point, axis=0)
 
     x, y, w, h = cv2.boundingRect(landmark_array)
-
     return [x, y, x + w, y + h]
 
 def calc_landmark_list(image, landmarks):
